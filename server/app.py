@@ -4,7 +4,8 @@ from flask import Flask, request, make_response, jsonify
 import os
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-DATABASE = os.environ.get("DB_URI", f"sqlite:///{os.path.join(BASE_DIR, 'app.db')}")
+DATABASE = os.environ.get('DATABASE_URL')
+# postgresql://caren_pizza_render_m5fy_user:UPsEVCtvfWPMMw4Qx67IWs2i4b7r6lFQ@dpg-cq5856eehbks73bkr730-a.oregon-postgres.render.com/caren_pizza_render_m5fy
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE
