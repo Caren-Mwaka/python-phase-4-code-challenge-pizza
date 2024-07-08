@@ -1,11 +1,15 @@
-from server.models import db, Restaurant, RestaurantPizza, Pizza
+from models import db, Restaurant, RestaurantPizza, Pizza
 from flask_migrate import Migrate
 from flask import Flask, request, make_response, jsonify
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-DATABASE = os.environ.get('DATABASE_URL')
-# postgresql://caren_pizza_render_m5fy_user:UPsEVCtvfWPMMw4Qx67IWs2i4b7r6lFQ@dpg-cq5856eehbks73bkr730-a.oregon-postgres.render.com/caren_pizza_render_m5fy
+DATABASE = os.environ.get('DATABASE_URL', 'postgresql://default_user:default_password@localhost/default_db')
+
+print("DATABASE URL:", DATABASE)
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE
@@ -13,7 +17,6 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.json.compact = False
 
 migrate = Migrate(app, db)
-
 db.init_app(app)
 
 @app.route("/")
@@ -38,7 +41,6 @@ def get_restaurant_by_id(id):
         return make_response(jsonify(restaurant_data), 200)
     else:
         return make_response(jsonify({"error": "Restaurant not found"}), 404)
-
 
 @app.route('/restaurants/<int:id>', methods=['DELETE'])
 def delete_restaurant(id):
@@ -86,7 +88,6 @@ def create_restaurant_pizza():
 
     except ValueError as e:
         return make_response(jsonify({"errors": ["validation errors"]}), 400)
-
 
 if __name__ == "__main__":
     app.run(port=5555, debug=True)
