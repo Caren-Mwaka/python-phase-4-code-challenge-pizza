@@ -1,4 +1,4 @@
-from models import db, Restaurant, RestaurantPizza, Pizza
+from server.models import db, Restaurant, RestaurantPizza, Pizza
 from flask_migrate import Migrate
 from flask import Flask, request, make_response, jsonify
 import os
