@@ -32,6 +32,7 @@ pexpect==4.8.0
 pickleshare==0.7.5
 pluggy==1.0.0
 prompt-toolkit==3.0.38
+psycopg2==2.9.9
 psycopg2-binary==2.9.9
 ptyprocess==0.7.0
 pure-eval==0.2.2
@@ -51,4 +52,3 @@ typing_extensions==4.5.0
 wcwidth==0.2.6
 Werkzeug==2.2.3
 zipp==3.15.0
-gunicorn
