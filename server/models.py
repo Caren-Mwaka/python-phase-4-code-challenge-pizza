@@ -1,8 +1,9 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
-from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy_serializer import SerializerMixin
+from sqlalchemy.orm import validates
+
 
 metadata = MetaData(
     naming_convention={
@@ -11,7 +12,6 @@ metadata = MetaData(
 )
 
 db = SQLAlchemy(metadata=metadata)
-
 
 class Restaurant(db.Model, SerializerMixin):
     __tablename__ = "restaurants"
@@ -73,6 +73,13 @@ class RestaurantPizza(db.Model, SerializerMixin):
         if value < 1 or value > 30:
             raise ValueError("Price must be between 1 and 30")
         self._price = value
+
+    @validates('_price')
+    def validate_price(self, key, value):
+        if value < 1 or value > 30:
+            raise ValueError("Price must be between 1 and 30")
+        return value
+
 
     def to_dict(self):
         return {

@@ -1,20 +1,14 @@
-from server.models import db, Restaurant, RestaurantPizza, Pizza
+from flask import Flask, request, jsonify, make_response
 from flask_migrate import Migrate
-from flask import Flask, request, make_response, jsonify
+from models import db, Restaurant, Pizza, RestaurantPizza
 import os
-from dotenv import load_dotenv
-
-load_dotenv()
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-DATABASE = os.environ.get('DATABASE_URL', 'postgresql://default_user:default_password@localhost/default_db')
-
-print("DATABASE URL:", DATABASE)
+DATABASE = os.environ.get("DB_URI", f"sqlite:///{os.path.join(BASE_DIR, 'app.db')}")
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.json.compact = False
 
 migrate = Migrate(app, db)
 db.init_app(app)
